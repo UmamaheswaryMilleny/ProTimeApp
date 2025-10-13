@@ -1,0 +1,37 @@
+# node_modules
+#     build
+#     dist
+#     coverage
+#     package-lock.json
+#     package.json
+#     tsconfig.json
+# Build output
+dist
+build
+out
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Coverage / test output
+coverage
+
+# Package manager lock files (optional, usually not formatted)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# OS-specific files
+.DS_Store
+
+# Ignore config files (if you don’t want them formatted)
+*.config.js
+*.config.cjs
+*.config.mjs
