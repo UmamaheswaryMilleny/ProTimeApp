@@ -1,6 +1,6 @@
-import { VerifyOtpDTO } from "../../dtos/user/VerifyOtpDTO";
-import { User } from "../../entities/User";
+import { VerifyOtpDTO } from '../../dtos/user/VerifyOtpDTO';
+import { VerifyOtpResponseDTO } from '../../dtos/user/VerifyOtpResponseDTO';
 
-export interface IVerifyUserUseCase{
-    execute(dto:VerifyOtpDTO):Promise<User>
+export interface IVerifyOTPUserUseCase {
+  execute(dto: VerifyOtpDTO): Promise<VerifyOtpResponseDTO>;
 }

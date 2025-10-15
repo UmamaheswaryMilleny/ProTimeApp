@@ -1,6 +1,6 @@
-import { LoginUserDTO } from "../../dtos/user/LoginUserDTO";
-import { User } from "../../entities/User";
+import { LoginUserDTO } from '../../dtos/user/LoginUserDTO';
+import { VerifyOtpResponseDTO } from '../../dtos/user/VerifyOtpResponseDTO';
 
-export interface ILoginUserUseCase{
-    execute(dto:LoginUserDTO):Promise<User>
+export interface ILoginUserUseCase {
+  execute(dto: LoginUserDTO): Promise<VerifyOtpResponseDTO>;
 }

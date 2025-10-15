@@ -1,7 +1,7 @@
 export class Email {
   private readonly _value: string;
   constructor(email: string) {
-    if (!this.isValid) {
+    if (!this.isValid(email)) {
       throw new Error('Invalid email.');
     }
     this._value = email;

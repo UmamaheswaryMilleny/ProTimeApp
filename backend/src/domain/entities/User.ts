@@ -14,12 +14,16 @@ export class User {
     public readonly createdAt: Date = new Date()
   ) {}
 
-static createNew(
-  id:string,name:string,email:Email,password:Password,role:UserRole=UserRole.USER
-):User{
-  return new User(id,name,email,password,false,role)
-}
-  verifyUser(){
-    this.isVerified=true
+  static createNew(
+    id: string,
+    name: string,
+    email: Email,
+    password: Password,
+    role: UserRole = UserRole.USER
+  ): User {
+    return new User(id, name, email, password, false, role);
+  }
+  verifyUser() {
+    this.isVerified = true;
   }
 }
