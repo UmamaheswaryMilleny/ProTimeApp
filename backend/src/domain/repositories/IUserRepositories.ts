@@ -4,5 +4,5 @@ export interface IUserRepositories {
   findById(id: string): Promise<User | null>;
   createUser(user: User): Promise<User>;
   verifyUser(userId: string): Promise<User>;
-  updatePassword(userId:string,password:string):Promise<User>
+  updatePassword(userId: string, password: string): Promise<User>;
 }
