@@ -1,0 +1,20 @@
+import { error } from "console";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const MONGO_URI = process.env.MONGO_URL || ""
+
+export class connectDB{
+
+    public async connect():Promise<void>{
+    try{
+        await mongoose.connect(MONGO_URI)
+        console.log('mongodb connected')
+    }catch{
+        console.error('mongodb connection failed',error)
+        process.exit(1)
+    }
+}
+}
