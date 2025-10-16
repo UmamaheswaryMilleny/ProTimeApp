@@ -2,7 +2,7 @@ import { IRegisterUserUseCase } from '../../../domain/use-cases/user/IRegisterUs
 import { IEmailSerivice } from '../../../domain/services/IEmailService';
 import { ICacheServices } from '../../../domain/services/ICacheService';
 import { IUserRepositories } from '../../../domain/repositories/IUserRepositories';
-import { RegisterUserDTO } from '../../../domain/dtos/user/RegisterUserDTO';
+import { RegisterUserDTO } from '../../dtos/user/RegisterUserDTO';
 import { IPasswordServices } from '../../../domain/services/IPasswordService';
 
 import { UserAlreadyExistError } from '../../../domain/errors/UserAlreadyExistError';
@@ -13,7 +13,7 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
     private userRepository: IUserRepositories,
     private emailSerivice: IEmailSerivice,
     private cacheService: ICacheServices,
-            private passwordSerice:IPasswordServices,
+    private passwordSerice: IPasswordServices
   ) {}
 
   async execute(
@@ -27,7 +27,7 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
     if (password !== confirmPassword) {
       throw new PasswordMismatchError();
     }
-    const hashedPassword = await this.passwordSerice.hashPassword(password)
+    const hashedPassword = await this.passwordSerice.hashPassword(password);
     const otp = Math.floor(100000 + Math.random() * 900000);
 
     await this.cacheService.set(`otp:${email}`, otp.toString(), 300);

@@ -1,27 +1,21 @@
 import { IEmailSerivice } from '../../domain/services/IEmailService';
 
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 
+export class EmailService implements IEmailSerivice {
+  private transporter;
+  constructor() {
+    this.transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+  }
 
-export class EmailService implements IEmailSerivice{
-    private transporter;
-    constructor(){
-        
-this.transporter = nodemailer.createTransport({
-    service:'gmail',
-    auth:{
-        user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PASS,
-    }
-})
-
-
-    }
-
-
-async sendOtp(email:string,otp:string):Promise<void>{
-    
-const htmlContent = `
+  async sendOtp(email: string, otp: string): Promise<void> {
+    const htmlContent = `
   <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f9f9f9; padding: 30px;">
     <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 30px; text-align: center;">
       
@@ -48,16 +42,15 @@ const htmlContent = `
   </div>
 `;
 
-    const mailOptions={
-        from:process.env.EMAIL_USER,
-        to:email,
-        subject:'Your OTP code',
-        text:`Your OTP code is ${otp}. It will expire in 5 minutes`,
-        html:htmlContent
-    }
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Your OTP code',
+      text: `Your OTP code is ${otp}. It will expire in 5 minutes`,
+      html: htmlContent,
+    };
 
-await this.transporter.sendMail(mailOptions)
-console.log(`OTP sent to ${email}`)
-
-}
+    await this.transporter.sendMail(mailOptions);
+    console.log(`OTP sent to ${email}`);
+  }
 }
