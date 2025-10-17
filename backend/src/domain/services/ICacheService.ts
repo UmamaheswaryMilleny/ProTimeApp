@@ -1,5 +1,8 @@
-export interface ICacheServices {
-  set(email: string, otp: string, ttlSeconds: number): Promise<void>;
-  get(email: string): Promise<string | null>;
-  delete(email: string): Promise<void>;
+import { Email } from "../value-objects/Email";
+import { OTP } from "../value-objects/OTP";
+
+export interface ICacheService {
+  set(email: Email, otp: OTP, ttlSeconds: number): Promise<void>;
+  get(email: Email): Promise<string | null>;
+  delete(email: Email): Promise<void>;
 }
