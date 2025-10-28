@@ -1,6 +1,9 @@
-export class InvalidOTPError extends Error {
+import { DomainError } from './DomainError';
+
+export class InvalidOTPError extends DomainError {
   constructor() {
-    super(`OTP is invalid`);
-    this.name = 'InvalidOTPError';
+    super('Invalid OTP');
   }
 }
+
+

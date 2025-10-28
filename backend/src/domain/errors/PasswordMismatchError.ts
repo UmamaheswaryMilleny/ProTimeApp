@@ -1,6 +1,7 @@
-export class PasswordMismatchError extends Error {
+import { DomainError } from './DomainError';
+
+export class PasswordMismatchError extends DomainError {
   constructor() {
-    super(`password and confirm password not matcch`);
-    this.name = 'PasswordMismatchError';
+    super('Password does not match');
   }
 }

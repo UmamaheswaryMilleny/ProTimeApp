@@ -1,6 +1,7 @@
-export class UserDoesNotExistError extends Error {
-  constructor(email: string) {
-    super(`A user with email "${email}" not exists`);
-    this.name = 'UserDoesNotExistError';
+import { DomainError } from './DomainError';
+
+export class UserDoesNotExistError extends DomainError {
+  constructor() {
+    super('User does not exist');
   }
 }

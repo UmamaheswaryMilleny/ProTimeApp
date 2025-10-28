@@ -1,6 +1,7 @@
-export class OtpExpiredError extends Error {
+import { DomainError } from './DomainError';
+
+export class OtpExpiredError extends DomainError {
   constructor() {
-    super(`OTP expired`);
-    this.name = 'OtpExpiredError';
+    super('OTP has expired');
   }
 }
