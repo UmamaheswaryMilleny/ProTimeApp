@@ -1,23 +1,19 @@
-import { Schema } from "mongoose";
 
+import mongoose from "mongoose";
 
-export const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
+      id: { type: String, required: true },
     name:{type:String,required:true},
     email:{type:String,required:true,unique:true},
     password:{type:String},
-    isVerified:{type:Boolean},
-    createdAt:{type:Date},
-    userRole:{
-        type:String,
-        enum:["USER","ADMIN"],
-        default:"USER"
-    },
-    googleVerified:{
-        type:Boolean,
-        default:false
-    }
+    isVerified:{type:Boolean,default:false},
+  role: { type: String, default: "USER" },
+  status: { type: String, default: "PENDING_VERIFICATION" }, // <-- added
+  // googleId: { type: String },
+  // createdAt: { type: Date, default: Date.now }
 },{timestamps:true})
 
 
 
+export const UserModel = mongoose.model("User", userSchema);
   

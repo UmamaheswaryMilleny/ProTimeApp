@@ -6,6 +6,9 @@ import { OTP } from '../value-objects/OTP';
 import { UserVerifiedEvent } from '../events/UserVerifiedEvent';
 import { UserPasswordChangedEvent } from '../events/UserPasswordChangedEvent';
 import { OTPGeneratedEvent } from '../events/OTPGeneratedEvent';
+import { UserId } from '../value-objects/UserId';
+import { GoogleIdError } from '../errors/GoogleIdError';
+import { InvalidUserNameError } from '../errors/InvalidUserNameError';
 
 export abstract class User extends BaseEntity {
  protected _name: string;
@@ -13,8 +16,9 @@ export abstract class User extends BaseEntity {
   protected _role: UserRole;
   protected _status: UserStatus;
   protected _isVerified: boolean;
+  
   protected constructor(
-    id: string,
+    id: UserId,
     name: string,
     email: Email,
     role: UserRole,
@@ -31,19 +35,19 @@ export abstract class User extends BaseEntity {
     this._isVerified = isVerified;
   }
 
-  // ===== Getters =====
+
   get name(): string { return this._name; }
   get email(): Email { return this._email; }
   get role(): UserRole { return this._role; }
   get status(): UserStatus { return this._status; }
   get isVerified(): boolean { return this._isVerified; }
 
-  // ===== Domain Logic =====
+
   verifyUser(): void {
     if (!this._isVerified) {
       this._isVerified = true;
       this._status = UserStatus.ACTIVE;
-      this.addEvent(new UserVerifiedEvent(this._id, this._email));
+      this.addEvent(new UserVerifiedEvent(this._id.getValue(), this._email));
       this.updateTimestamp();
     }
   }
@@ -60,19 +64,27 @@ export abstract class User extends BaseEntity {
 export class EmailUser extends User {
   private _password: Password;
 
-  constructor(
-    id: string,
+  private constructor( 
+    id: UserId,
     name: string,
     email: Email,
     password: Password,
     role: UserRole = UserRole.USER,
     status: UserStatus = UserStatus.PENDING_VERIFICATION,
     isVerified = false,
-    createdAt? :Date,
-    updatedAt? :Date
+    createdAt?: Date,
+    updatedAt?: Date
   ) {
     super(id, name, email, role, status, isVerified, createdAt, updatedAt);
     this._password = password;
+  }
+
+  static create(id: UserId, name: string, email: Email, password: Password): EmailUser {
+    if (!name || name.trim().length < 2) {
+      throw new InvalidUserNameError()
+    }
+
+    return new EmailUser(id, name.trim(), email, password);
   }
 
   get password(): Password {
@@ -82,30 +94,41 @@ export class EmailUser extends User {
   changePassword(newPassword: Password): void {
     this._password = newPassword;
     this.updateTimestamp();
-    this.addEvent(new UserPasswordChangedEvent(this._id, newPassword.hash));
+    this.addEvent(new UserPasswordChangedEvent(this._id.getValue(), newPassword.hash));
   }
 
   generateOTP(otp: OTP): void {
-    this.addEvent(new OTPGeneratedEvent(this._id, otp.value, otp.expiry,otp.purpose));
+    this.addEvent(new OTPGeneratedEvent(this._id.getValue(), otp.value, otp.expiry, otp.purpose));
   }
 }
+
 
 export class GoogleUser extends User {
   private readonly _googleId: string;
 
-  constructor(
-    id: string,
+  private constructor(
+    id: UserId,
     name: string,
     email: Email,
     googleId: string,
     role: UserRole = UserRole.USER,
     status: UserStatus = UserStatus.ACTIVE,
     isVerified = true,
-    createdAt?:Date,
-    updatedAt?:Date
+    createdAt?: Date,
+    updatedAt?: Date
   ) {
     super(id, name, email, role, status, isVerified, createdAt, updatedAt);
     this._googleId = googleId;
+  }
+
+  static create(id: UserId, name: string, email: Email, googleId: string): GoogleUser {
+    if (!name || name.trim().length < 2) {
+      throw new InvalidUserNameError()
+    }
+    if (!googleId) {
+      throw new GoogleIdError()
+    }
+    return new GoogleUser(id, name.trim(), email, googleId);
   }
 
   get googleId(): string {

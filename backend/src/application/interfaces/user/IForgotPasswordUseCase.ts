@@ -1,5 +1,5 @@
-import { ForgotPasswordDTO } from '../../dtos/user/ForgotPasswordDTO';
+import { ForgotPasswordRequestDTO } from "../../dtos/user/UserDTO";
 
 export interface IForgotPasswordUseCase {
-  execute(dto: ForgotPasswordDTO): Promise<{ message: string }>;
+  execute(dto: ForgotPasswordRequestDTO): Promise<{ message: string }>;
 }

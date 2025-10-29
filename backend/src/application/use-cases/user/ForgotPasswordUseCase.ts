@@ -1,28 +1,34 @@
-import { IForgotPasswordUseCase } from '../../../domain/use-cases/user/IForgotPasswordUseCase';
-import { IUserRepositories } from '../../../domain/repositories/IUserRepositories';
-import { ICacheServices } from '../../../domain/services/ICacheService';
-import { IEmailSerivice } from '../../../domain/services/IEmailService';
+import { IForgotPasswordUseCase } from '../../interfaces/user/IForgotPasswordUseCase';
+import { IUserRepository } from '../../interfaces/user/IUserRepository';
+import { ICacheService } from '../../interfaces/services/ICacheService';
+import { IEmailService } from '../../interfaces/services/IEmailService';
 import { ForgotPasswordDTO } from '../../dtos/user/ForgotPasswordDTO';
-import { UserNotExistError } from '../../../domain/errors/UserNotExistError';
+import { UserDoesNotExistError } from '../../../domain/errors/UserDoesNotExistError';
 import { ForgotPasswordResponseDTO } from '../../dtos/user/ForgotPasswordResponseDTO';
+import { OTP } from '../../../domain/value-objects/OTP';
+import { Email } from '../../../domain/value-objects/Email';
 
 export class ForgotPasswordUseCase implements IForgotPasswordUseCase {
   constructor(
-    private userRepository: IUserRepositories,
-    private emailService: IEmailSerivice,
-    private cacheService: ICacheServices
+    private userRepository: IUserRepository,
+    private emailService: IEmailService,
+    private cacheService: ICacheService
   ) {}
 
   async execute(dto: ForgotPasswordDTO): Promise<ForgotPasswordResponseDTO> {
     const { email } = dto;
-    const existingUser = await this.userRepository.findByEmail(email);
-    if (!existingUser) {
-      throw new UserNotExistError(email);
-    }
-    const otp = Math.floor(100000 + Math.random() * 900000);
+    const emailVO=Email.create(email)
+const existingUser = await this.userRepository.findByEmail(emailVO);
 
-    await this.cacheService.set(`forgotPassword:${email}`, otp.toString(), 300);
-    await this.emailService.sendOtp(email, otp.toString());
+    if (!existingUser) {
+      throw new UserDoesNotExistError();
+    }
+    const otpValue = Math.floor(100000 + Math.random() * 900000);
+    const expiresAt=new Date(Date.now()+5*60*1000)
+    const otp = OTP.create(otpValue.toString(),expiresAt)
+
+    await this.cacheService.set(`forgotPassword:${emailVO.value}`, otp.value, 300);
+    await this.emailService.sendOtp(emailVO, otp);
     return { message: 'OTP has send to you email' };
   }
 }

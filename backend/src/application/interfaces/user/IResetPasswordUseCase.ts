@@ -1,6 +1,6 @@
-import { ResetPasswordDTO } from '../../dtos/user/ResetPasswordDTO';
-import { ResetPasswordResponseDTO } from '../../dtos/user/ResetPasswordResponseDTO';
+import { ResetPasswordRequestDTO } from '../../dtos/user/UserDTO';
+import { ResetPasswordResponseDTO } from '../../dtos/user/UserDTO';
 
 export interface IResetPasswordUseCase {
-  execute(dto: ResetPasswordDTO): Promise<ResetPasswordResponseDTO>;
+  execute(dto: ResetPasswordRequestDTO): Promise<ResetPasswordResponseDTO>;
 }

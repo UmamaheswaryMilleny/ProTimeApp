@@ -1,5 +1,5 @@
 
-import { DomainEvent } from "./DomainEvent.js";
+import { DomainEvent } from "./DomainEvent";
 
 export class UserPasswordChangedEvent extends DomainEvent {
   constructor(

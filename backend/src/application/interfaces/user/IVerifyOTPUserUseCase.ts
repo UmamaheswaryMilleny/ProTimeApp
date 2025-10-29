@@ -1,6 +1,6 @@
-import { VerifyOtpDTO } from '../../dtos/user/VerifyOtpDTO';
-import { VerifyOtpResponseDTO } from '../../dtos/user/VerifyOtpResponseDTO';
+import { VerifyOtpRequestDTO } from '../../dtos/user/UserDTO';
+import { VerifyOtpResponseDTO } from '../../dtos/user/UserDTO';
 
 export interface IVerifyOTPUserUseCase {
-  execute(dto: VerifyOtpDTO): Promise<VerifyOtpResponseDTO>;
+  execute(dto: VerifyOtpRequestDTO): Promise<VerifyOtpResponseDTO>;
 }

@@ -1,18 +1,19 @@
 import { DomainEvent } from "../events/DomainEvent";
+import { UserId } from "../value-objects/UserId";
 
 export abstract class BaseEntity {
-  protected readonly _id: string;
+  protected readonly _id: UserId;
   protected readonly _createdAt: Date;
   protected _updatedAt: Date;
    private readonly _events: DomainEvent[] = [];
 
-  constructor(id: string, createdAt?: Date, updatedAt?: Date) {
+  constructor(id: UserId, createdAt?: Date, updatedAt?: Date) {
     this._id = id;
     this._createdAt = createdAt ?? new Date();
     this._updatedAt = updatedAt ?? new Date();
   } 
 
-  get id(): string {
+  get id(): UserId {
     return this._id;
   }
 

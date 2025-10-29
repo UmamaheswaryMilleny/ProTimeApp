@@ -1,5 +1,5 @@
-import { DomainEvent } from "./DomainEvent.js";
-import { OtpPurpose } from "../types/Auth.js";
+import { DomainEvent } from "./DomainEvent";
+import { OtpPurpose } from "../enums/UserEnums";
 
 export class OTPVerifiedEvent extends DomainEvent {
   constructor(

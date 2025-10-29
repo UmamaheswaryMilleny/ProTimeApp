@@ -1,5 +1,5 @@
 import { InvalidOTPError } from "../errors/InvalidOTPError";
-import { OtpPurpose } from "../types/Auth";
+import { OtpPurpose } from "../enums/UserEnums";
 
 export class OTP {
   private constructor(

@@ -23,6 +23,10 @@ module.exports = [
     rules: {
       ...plugin.configs.recommended.rules, // include recommended rules
       // ✅ add your own overrides here
+      "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_" } // 👈 ignore variables starting with "_"
+    ]
     },
   },
 ];

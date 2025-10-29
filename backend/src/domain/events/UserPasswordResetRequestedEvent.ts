@@ -1,5 +1,5 @@
-import { DomainEvent } from "./DomainEvent.js";
-import { Email } from "../value-objects/Email.js";
+import { DomainEvent } from "./DomainEvent";
+import { Email } from "../value-objects/Email";
 
 export class UserPasswordResetRequestedEvent extends DomainEvent {
   constructor(

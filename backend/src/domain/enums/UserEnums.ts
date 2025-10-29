@@ -9,6 +9,8 @@ export enum UserRole {
   ADMIN = 'ADMIN',
 }
 
+export enum OtpPurpose {   RIGISTER= 'register',
+  RESET = 'reset'}
 
 // export enum Provider {
 //   LOCAL = "local",
