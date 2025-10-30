@@ -12,7 +12,7 @@ export enum UserRole {
 export enum OtpPurpose {   RIGISTER= 'register',
   RESET = 'reset'}
 
-// export enum Provider {
-//   LOCAL = "local",
-//   GOOGLE = "google",
-// }
+export enum Provider {
+  LOCAL = "local",
+  GOOGLE = "google",
+}

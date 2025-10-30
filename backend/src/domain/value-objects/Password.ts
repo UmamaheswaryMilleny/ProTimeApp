@@ -1,10 +1,8 @@
-// src/domain/value-objects/Password.ts
 import { WeakPasswordError } from "../errors/WeakPasswordError";
 
 export class Password {
   private constructor(private readonly _value: string) {}
 
-  // When user registers or resets password (plain text)
   static create(raw: string): Password {
     if (!this.isValid(raw)) {
       throw new WeakPasswordError()
@@ -12,7 +10,7 @@ export class Password {
     return new Password(raw);
   }
 
-  // When loading hashed password from DB
+  //Used when you load an existing user from the database.
   static fromHash(hash: string): Password {
     return new Password(hash);
   }

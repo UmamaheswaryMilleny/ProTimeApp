@@ -7,7 +7,7 @@ export class UserId {
     return new UserId(id ?? randomUUID());
   }
 
-  getValue(): string {
+  get value(): string {
     return this.id;
   }
 }
