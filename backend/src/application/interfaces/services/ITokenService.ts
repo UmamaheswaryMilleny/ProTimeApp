@@ -7,8 +7,8 @@ export interface UserPayload {
   role: UserRole;
 }
 export interface ITokenService {
-  generateAccessToken(payload: UserPayload): string;
-  verifyAccessToken(token: string): object | null;
-  generateRefreshToken(payload: UserPayload): string;
-  verifyRefreshToken(token: string): object | null;
+  generateAccessToken(payload: UserPayload):Promise<string>;
+  verifyAccessToken(token: string): UserPayload | null;
+  generateRefreshToken(payload: UserPayload): Promise<string>;
+  verifyRefreshToken(token: string): UserPayload | null;
 }

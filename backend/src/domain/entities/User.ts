@@ -95,6 +95,7 @@ export class EmailUser extends User {
     return new EmailUser(id, name.trim(), email, password);
   }
 
+
   get password(): Password {
     return this._password;
   }

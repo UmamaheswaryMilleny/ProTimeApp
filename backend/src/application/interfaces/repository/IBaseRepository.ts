@@ -1,11 +1,7 @@
+import { UserId } from '../../../domain/value-objects/UserId';
+
 export interface IBaseRepository<T> {
-  create(data: Partial<T>): Promise<T>;
-  findById(id: string): Promise<T | null>;
-  findAll(query: {
-    filter?: Record<string, string>;
-    skip?: number;
-    limit?: number;
-  }): Promise<T[]>;
-  update(id: string, data: Partial<T>): Promise<T | null>;
-  delete(id: string): Promise<boolean>;
+  save(entity: T): Promise<void>;
+  findById(id: UserId): Promise<T | null>;
+  delete(id: UserId): Promise<boolean>;
 }

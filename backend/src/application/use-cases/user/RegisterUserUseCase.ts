@@ -1,91 +1,89 @@
-import { IRegisterUserUseCase } from '../../interfaces/user/IRegisterUserUseCase';
+import { IRegisterUserUseCase } from '../../interfaces/usecase/IRegisterUserUseCase';
+import { IUserRepository } from '../../interfaces/repository/IUserRepository';
+import { IPasswordService } from '../../interfaces/services/IPasswordService';
+import { IOtpService } from '../../interfaces/services/IOtpService';
 import { IEmailService } from '../../interfaces/services/IEmailService';
 import { ICacheService } from '../../interfaces/services/ICacheService';
-import { IUserRepository } from '../../interfaces/user/IUserRepository';
+import { IDomainEventPublisher } from '../../interfaces/repository/IDomainEventPublisher';
 import { RegisterUserDTO } from '../../dtos/user/UserDTO';
-import { IPasswordService } from '../../interfaces/services/IPasswordService';
+import { UserId } from '../../../domain/value-objects/UserId';
 import { Email } from '../../../domain/value-objects/Email';
 import { OTP } from '../../../domain/value-objects/OTP';
+import { OtpPurpose, Provider} from '../../../domain/enums/UserEnums';
 import { UserAlreadyExistError } from '../../../domain/errors/UserAlreadyExistError';
-import { PasswordMismatchError } from '../../../domain/errors/PasswordMismatchError';
 import { Password } from '../../../domain/value-objects/Password';
-import { OtpPurpose } from '../../../domain/types/Auth';
+import { EmailUser, GoogleUser } from '../../../domain/entities/User';
+import { ILogger } from '../../interfaces/ILogger';
 import { ResponseMessages } from '../../constants/ResponseMessages';
-import { UserId } from '../../../domain/value-objects/UserId';
-// import { EmailUser } from '../../../domain/entities/User';
-// import { GoogleUser } from '../../../domain/entities/User';
+import { RegisterResponseDTO } from '../../dtos/user/UserDTO';
+import { TimeConstants } from '../../constants/TimeConstants';
 
-export class RegisterUserUseCase implements IRegisterUserUseCase {
+
+export class RegisterUseCase implements IRegisterUserUseCase {
   constructor(
     private userRepository: IUserRepository,
+    private passwordService: IPasswordService,
+    private otpService: IOtpService,
     private emailService: IEmailService,
     private cacheService: ICacheService,
-    private passwordService: IPasswordService
+    private domainEventPublish: IDomainEventPublisher,
+    private logger: ILogger
   ) {}
 
-  async execute(
-    dto: RegisterUserDTO
-  ): Promise<{ success: boolean; message: string }> {
-    const { name, email, password, confirmPassword } = dto;
-    const emailVO = Email.create(email);
-    // const passwordVO = Password.create(password);
+  async execute(dto: RegisterUserDTO): Promise<RegisterResponseDTO> {
+    const emailVO = Email.create(dto.email);
+
     const existingUser = await this.userRepository.findByEmail(emailVO);
     if (existingUser) {
+      this.logger.warn(`User with email ${dto.email} already exists`);
       throw new UserAlreadyExistError();
     }
 
 
-      // If Google Sign-Up
-    // if (googleID) {
-    //   const userId = UserId.create();
-    //   const googleUser = GoogleUser.create(userId.getValue(), name, emailVO, googleId);
-    //   await this.userRepository.save(googleUser);
-    //   return { success: true, message: ResponseMessages.RegisteredWithGoogle };
-    // }
-
-    if (password !== confirmPassword) {
-      throw new PasswordMismatchError();
+    if(dto.provider===Provider.GOOGLE){
+        const userId = UserId.create();
+        const googleUser = GoogleUser.create(userId,dto.name,emailVO,dto.googleId!)
+        await this.userRepository.save(googleUser)
+        await this.domainEventPublish.publishEvents(googleUser.events)
+        googleUser.clearEvents();
+        this.logger.info(`Google user ${dto.email} registered successfully`)
+        return {message:ResponseMessages.RegistrationSuccessGoogle,isOtpRequired:false}
     }
-    const hashedPassword = await this.passwordService.hashPassword(password);
-    // const hashedPassword = await this.passwordService.hashPassword(passwordVO.hash);
-    // const passwordVOForUser = Password.fromHash(hashedPassword);
-    const passwordVO = Password.fromHash(hashedPassword)
-    const userId=UserId.create()
+    const hashPassword = await this.passwordService.hashPassword(dto.password);
+    const passwordVO = Password.fromHash(hashPassword);
+    const userId = UserId.create();
 
-    // const tempUser = EmailUser.create(
-    //   userId.getValue(),
-    //   name,
-    //   emailVO,
-    //   passwordVO
-    // )
+    const user = EmailUser.create(userId, dto.name, emailVO, passwordVO);
 
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = new Date(Date.now() + 60 * 1000);
-    const otpVO = OTP.create(otp, expiresAt,OtpPurpose.RIGISTER)
-    ;
-    await this.cacheService.set(`otp:register:${emailVO.value}`, otpVO.value, 300);
-    // const userData = JSON.stringify({
-    //   name,
-    //   email: emailVO.value,
-    //   password: hashedPassword,
-    // });
+    const otpCode = await this.otpService.generateOtp(
+      dto.email,
+      OtpPurpose.REGISTER
+    );
+    const expiresAt = new Date(Date.now() + TimeConstants.OTP_EXPIRY_MS);
+    const otpVO = OTP.create(otpCode, expiresAt, OtpPurpose.REGISTER);
+    user.generateOTP(otpVO);
 
 
+await this.cacheService.set(`otp:register:${emailVO.value}`, otpVO.value, 300);
 
-    // await this.cacheService.set(`user:temp:${emailVO.value}`,JSON.stringify(tempUser), 300);
-        await this.cacheService.set(
-      `user:temp:${emailVO.value}`,
+    await this.cacheService.set(
+      `user:temp:${dto.email}`,
       JSON.stringify({
-        id: userId.getValue(),
-        name,
-        email: emailVO.value,
-        password: passwordVO.hash,
+        id: user.id.value,
+        name: user.name,
+        email: user.email.value,
+        provider:Provider.LOCAL,
+        isVerified:false
       }),
-      300
+      TimeConstants.OTP_EXPIRY_SECONDS
     );
 
-    await this.emailService.sendOtp(emailVO, otpVO);
-    return { success: true,  message: ResponseMessages.OtpHasBeenSent};
+    await this.emailService.sendOtp(dto.email, otpCode);
+    this.logger.info(`Registration initiated for ${dto.email} `);
+    await this.domainEventPublish.publishEvents(user.events);
+    user.clearEvents()
+        return {message:ResponseMessages.RegistrationSuccessEmail,isOtpRequired:true}
   }
 }
+

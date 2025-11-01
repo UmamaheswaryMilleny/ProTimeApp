@@ -1,5 +1,5 @@
-import { ILoginUserUseCase } from '../../interfaces/user/ILoginUserUseCase';
-import { IUserRepository } from '../../interfaces/user/IUserRepository';
+import { ILoginUserUseCase } from '../../interfaces/usecase/ILoginUserUseCase';
+import { IUserRepository } from '../../interfaces/usecase/IUserRepository';
 import { ITokenService } from '../../interfaces/services/ITokenService';
 import { VerifyOtpResponseDTO } from '../../dtos/user/VerifyOtpResponseDTO';
 import { LoginUserDTO } from '../../dtos/user/LoginUserDTO';
@@ -18,15 +18,15 @@ export class LoginUserUseCase implements ILoginUserUseCase {
 
   async execute(dto: LoginUserDTO): Promise<VerifyOtpResponseDTO> {
     const { email, password } = dto;
-    const emailVO =Email.create(email);
+    const emailVO = Email.create(email);
     const passwordVO = Password.fromHash(password);
     const user = await this.userRepository.findByEmail(emailVO);
     if (!user) {
       throw new UserDoesNotExistError();
     }
-  if (!('password' in user)) {
-    throw new InvalidCredentialsError(); 
-  }
+    if (!('password' in user)) {
+      throw new InvalidCredentialsError();
+    }
     const isValid = await this.passwordService.comparePassword(
       passwordVO.hash,
       user.password.hash
@@ -43,6 +43,6 @@ export class LoginUserUseCase implements ILoginUserUseCase {
     const accessToken = this.tokenService.generateAccessToken(payload);
     const refreshToken = this.tokenService.generateRefreshToken(payload);
 
-    return { email:user.email.value, accessToken, refreshToken };
+    return { email: user.email.value, accessToken, refreshToken };
   }
 }

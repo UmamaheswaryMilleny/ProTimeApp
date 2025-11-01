@@ -9,7 +9,7 @@ export enum UserRole {
   ADMIN = 'ADMIN',
 }
 
-export enum OtpPurpose {   RIGISTER= 'register',
+export enum OtpPurpose {   REGISTER= 'register',
   RESET = 'reset'}
 
 export enum Provider {
