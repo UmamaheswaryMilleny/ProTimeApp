@@ -21,20 +21,14 @@
 
 // src/infrastructure/config/db.ts
 import mongoose from "mongoose";
+import { config } from "../config/env";
 
 export const connectDB = async (): Promise<void> => {
   try {
-    const mongoURI = process.env.MONGO_URI;
-
-    if (!mongoURI) {
-      console.error("❌ MONGO_URI is missing. Check your .env file!");
-      process.exit(1);
-    }
-
-    await mongoose.connect(mongoURI);
-    console.log("✅ MongoDB connected successfully");
-  } catch (err) {
-    console.error("❌ MongoDB connection error:", err);
+    await mongoose.connect(config.mongoURI);
+    console.log("✅ MongoDB Connected Successfully");
+  } catch (error) {
+    console.error("❌ MongoDB Connection Error:", error);
     process.exit(1);
   }
 };

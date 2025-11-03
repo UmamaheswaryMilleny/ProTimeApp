@@ -91,10 +91,6 @@ export interface VerifyOtpResponseDTO extends AuthTokensDTO {
   message?: string;
 }
 
-// export interface RefreshAccessTokenResponseDTO {
-
-// }
-
 export interface GoogleAuthResponseDTO {
   data: UserPublicDTO;
   // isNewUser: boolean,

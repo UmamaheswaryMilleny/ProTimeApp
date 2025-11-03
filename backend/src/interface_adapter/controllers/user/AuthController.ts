@@ -1,3 +1,53 @@
+import { Request, Response, NextFunction } from "express";
+import { registerUseCase,logger } from "../../../infrastructure/config/dependencies";
+import { RegisterUserDTO,RegisterResponseDTO } from "../../../application/dtos/user/UserDTO";
+import { HttpStatusCode } from "../../../application/constants/statusCodes";
+
+export class AuthController {
+  // POST /api/auth/register
+  async register(req: Request, res: Response, next: NextFunction) {
+    try {
+      // Request body already validated by validateRequest middleware
+      const dto = req.body as RegisterUserDTO;
+
+      const result: RegisterResponseDTO = await registerUseCase.execute(dto);
+
+      // If OTP required, registration returns isOtpRequired true
+      const status = result.isOtpRequired ? HttpStatusCode.CREATED : HttpStatusCode.CREATED;
+
+      logger.info(`RegisterController: registration result for ${dto.email}: ${result.message}`);
+
+      return res.status(status).json(result);
+    } catch (err) {
+      return next(err);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // // src/interface-adapters/controllers/user/AuthController.ts
 // import { Request, Response } from "express";
 // import { RegisterUserUseCase } from "../../../application/usecases/user/RegisterUserUseCase";

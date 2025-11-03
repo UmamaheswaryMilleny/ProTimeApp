@@ -1,35 +1,41 @@
-// src/infrastructure/database/models/UserModel.ts
 
-import mongoose, { Schema, Document } from "mongoose";
+
+import {Document } from 'mongoose';
+
+
 
 export interface IUserModel extends Document {
+  id: string;
   name: string;
   email: string;
   password?: string;
   googleId?: string;
-  isVerified: boolean;
   role: string;
   status: string;
-   createdAt: Date;
+  isVerified: boolean;
+  provider: string;
+  createdAt: Date;
   updatedAt: Date;
 }
 
-const UserSchema = new Schema<IUserModel>({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String },
-  googleId: { type: String },
-  isVerified: { type: Boolean, default: false },
-  role: { type: String, default: "USER" },
-  status: { type: String, default: "ACTIVE" },
-},
-{
-  timestamps:true
-});
+// const UserSchema = new Schema<IUserModel>(
+//   {id: { type: String, required: true,unique:true },
+//     name: { type: String, required: true },
+//     email: { type: String, required: true, unique: true },
+//     password: { type: String },
+//     googleId: { type: String },
+//     role: { type: String, default: 'USER' },
+//     status: { type: String, default: 'ACTIVE' },
+//     isVerified: { type: Boolean, default: false },
+//     provider: { type:String, required:true },
 
-export const UserModel = mongoose.model<IUserModel>("User", UserSchema);
+//   },
+//   {
+//     timestamps: true,
+//   }
+// );
 
-
+// export const UserModel = mongoose.model<IUserModel>('User', UserSchema);
 
 // import { model, Document, ObjectId } from "mongoose";
 // import { userSchema } from "../Schema/userSchema";

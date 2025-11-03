@@ -33,47 +33,30 @@
 //   }
 // }
 
-
-import { ICacheService } from '../../application/interfaces/services/ICacheService';
-import { createClient, RedisClientType } from 'redis';
+import { Redis } from "ioredis";
+import { ICacheService } from "../../application/interfaces/services/ICacheService";
+import { config } from "../config/env";
 
 export class CacheService implements ICacheService {
-  private redisClient: RedisClientType;
+  private client: Redis;
 
   constructor() {
-    const redisUrl = process.env.REDIS_URL;
-    if (!redisUrl) {
-      console.error('❌ Missing REDIS_URL in .env file');
-      process.exit(1);
-    }
+    if (!config.redisURL) throw new Error("❌ Missing REDIS_URL in .env");
+    this.client = new Redis(config.redisURL);
 
-    // ✅ Add TLS for Redis Cloud
-    this.redisClient = createClient({
-      url: redisUrl,
-      socket: {
-        tls: true, // Use TLS (required by Redis Cloud)
-        rejectUnauthorized: false, // Allow self-signed certificates (safe in dev)
-      },
-    });
-
-    this.redisClient.on('error', (err) => {
-      console.error('❌ Redis connection error:', err);
-    });
-
-    this.redisClient.connect()
-      .then(() => console.log('✅ Connected to Redis Cloud'))
-      .catch((err) => console.error('❌ Redis connection failed:', err));
+    this.client.on("connect", () => console.log("✅ Connected to Redis Cloud"));
+    this.client.on("error", (err) => console.error("❌ Redis Error:", err));
   }
 
-  async set(key: string, value: string, ttl: number): Promise<void> {
-    await this.redisClient.set(key, value, { EX: ttl });
+  async set(key: string, value: string, ttlSeconds: number): Promise<void> {
+    await this.client.set(key, value, "EX", ttlSeconds);
   }
 
   async get(key: string): Promise<string | null> {
-    return this.redisClient.get(key);
+    return this.client.get(key);
   }
 
   async delete(key: string): Promise<void> {
-    await this.redisClient.del(key);
+    await this.client.del(key);
   }
 }
