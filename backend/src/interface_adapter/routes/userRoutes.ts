@@ -14,20 +14,20 @@
 
 // export default router;
 // src/interface-adapters/routes/authRoutes.ts
-import { Router } from "express";
-import { AuthController } from "../controllers/user/AuthController";
-import { validateRequest } from "../middleware/validateRequest";
-import { RegisterUserSchema } from "../../application/validators/UserValidator";
+// import { Router } from "express";
+// import { AuthController } from "../controllers/user/AuthController";
+// import { validateRequest } from "../middleware/validateRequest";
+// import { RegisterUserSchema } from "../../application/validators/UserValidator";
 
-const router = Router();
-const controller = new AuthController();
+// const router = Router();
+// const controller = new AuthController();
 
-// POST /api/auth/register
-router.post(
-  "/register",
-  validateRequest(RegisterUserSchema),
-  (req, res, next) => controller.register(req, res, next)
-);
+// // POST /api/auth/register
+// router.post(
+//   "/register",
+//   validateRequest(RegisterUserSchema),
+//   (req, res, next) => controller.register(req, res, next)
+// );
 
-export { router as authRoutes };
+// export { router as authRoutes };
 

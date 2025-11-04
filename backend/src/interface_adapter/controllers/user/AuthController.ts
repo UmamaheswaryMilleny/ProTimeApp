@@ -2,6 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { registerUseCase,logger } from "../../../infrastructure/config/dependencies";
 import { RegisterUserDTO,RegisterResponseDTO } from "../../../application/dtos/user/UserDTO";
 import { HttpStatusCode } from "../../../application/constants/statusCodes";
+import { verifyOtpUseCase } from "../../../infrastructure/config/dependencies";
+import { VerifyOtpRequestDTO, VerifyOtpResponseDTO } from "../../../application/dtos/user/UserDTO";
+import { loginUserUseCase } from "../../../infrastructure/config/dependencies";
+import { LoginUserDTO, LoginResponseDTO } from "../../../application/dtos/user/UserDTO";
+
+
 
 export class AuthController {
   // POST /api/auth/register
@@ -22,6 +28,32 @@ export class AuthController {
       return next(err);
     }
   }
+
+
+  async verifyOtp(req: Request, res: Response, next: NextFunction) {
+      try {
+        const dto = req.body as VerifyOtpRequestDTO;
+  
+        const result: VerifyOtpResponseDTO = await verifyOtpUseCase.execute(dto);
+  
+        logger.info(`VerifyOtpController: OTP verified for ${dto.email}`);
+  
+        return res.status(HttpStatusCode.OK).json(result);
+      } catch (err) {
+        next(err);
+      }
+    }
+
+  async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const dto = req.body as LoginUserDTO;
+      const result: LoginResponseDTO = await loginUserUseCase.execute(dto);
+      return res.status(HttpStatusCode.OK).json(result);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
 }
 
 

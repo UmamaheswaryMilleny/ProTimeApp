@@ -1,84 +1,99 @@
-import { IVerifyOTPUserUseCase } from "../../interfaces/usecase/IVerifyOTPUserUseCase";
-import { IUserRepository } from "../../interfaces/repository/IUserRepository";
-import { ITokenService } from "../../interfaces/services/ITokenService";
-import { ICacheService } from "../../interfaces/services/ICacheService";
-import { Email } from "../../../domain/value-objects/Email";
-import { VerifyOtpRequestDTO, VerifyOtpResponseDTO } from "../../dtos/user/UserDTO";
-import { InvalidOTPError } from "../../../domain/errors/InvalidOTPError";
-import { OtpExpiredError } from "../../../domain/errors/OtpExpiredError";
-import { IOtpService } from "../../interfaces/services/IOtpService";
-import { IDomainEventPublisher } from "../../interfaces/repository/IDomainEventPublisher";
-import { OtpPurpose} from "../../../domain/enums/UserEnums";
-import { ILogger } from "../../interfaces/ILogger";
-import { EmailUser } from "../../../domain/entities/User";
-import { UserId } from "../../../domain/value-objects/UserId";
-import { ResponseMessages } from "../../constants/ResponseMessages";
+import { IVerifyOTPUserUseCase } from '../../interfaces/usecase/IVerifyOTPUserUseCase';
+import { IUserRepository } from '../../interfaces/repository/IUserRepository';
+import { ITokenService } from '../../interfaces/services/ITokenService';
+import { ICacheService } from '../../interfaces/services/ICacheService';
+import { Email } from '../../../domain/value-objects/Email';
+import {
+  VerifyOtpRequestDTO,
+  VerifyOtpResponseDTO,
+} from '../../dtos/user/UserDTO';
+import { InvalidOTPError } from '../../../domain/errors/InvalidOTPError';
+import { OtpExpiredError } from '../../../domain/errors/OtpExpiredError';
+import { IOtpService } from '../../interfaces/services/IOtpService';
+import { IDomainEventPublisher } from '../../interfaces/repository/IDomainEventPublisher';
+import { OtpPurpose } from '../../../domain/enums/UserEnums';
+import { ILogger } from '../../interfaces/ILogger';
+import { EmailUser } from '../../../domain/entities/User';
+import { UserId } from '../../../domain/value-objects/UserId';
+import { ResponseMessages } from '../../constants/ResponseMessages';
+import { Password } from '../../../domain/value-objects/Password';
 
 
-export class VerifyOtpUsecase implements IVerifyOTPUserUseCase{
+export class VerifyOtpUsecase implements IVerifyOTPUserUseCase {
   constructor(
-    private userRepository:IUserRepository,
-    private tokenService:ITokenService,
-    private cacheService:ICacheService,
-    private otpService:IOtpService,
-   private domainEventPublish: IDomainEventPublisher,
-    private logger:ILogger
-
-  ){}
-
+    private userRepository: IUserRepository,
+    private tokenService: ITokenService,
+    private cacheService: ICacheService,
+    private otpService: IOtpService,
+    private domainEventPublish: IDomainEventPublisher,
+    private logger: ILogger
+  ) {}
 
   async execute(dto: VerifyOtpRequestDTO): Promise<VerifyOtpResponseDTO> {
-
-    
-    const cacheUser=await this.cacheService.get(`user:temp:${dto.email}`)
-
-    if(!cacheUser){
-      this.logger.warn(`No registration data found for ${dto.email}`)
-      throw new OtpExpiredError()
+    const cacheUser = await this.cacheService.get(`user:temp:${dto.email}`);
+    this.logger.info(
+      `Starting OTP verification for ${dto.email} otp: ${dto.otp}`
+    );
+    if (!cacheUser) {
+      this.logger.warn(`No registration data found for ${dto.email}`);
+      throw new OtpExpiredError();
     }
 
-    
-    const isValidOtp=await this.otpService.verifyOtp(dto.email,dto.otp,OtpPurpose.REGISTER)
+    const isValidOtp = await this.otpService.verifyOtp(
+      dto.email,
+      dto.otp,
+      OtpPurpose.REGISTER
+    );
 
-    if(!isValidOtp){
-      this.logger.warn(`Invalid OTP attempt for ${dto.email}`)
-      throw new InvalidOTPError()
+    if (!isValidOtp) {
+      this.logger.warn(`Invalid OTP attempt for ${dto.email}`);
+      throw new InvalidOTPError();
     }
 
-    const parsedUser = JSON.parse(cacheUser)
+    const parsedUser = JSON.parse(cacheUser);
 
-    const emailVO=Email.create(parsedUser.email)
-    const userId=UserId.create(parsedUser.id)
+    const emailVO = Email.create(parsedUser.email);
+    const userId = UserId.create(parsedUser.id);
 
     // const userId=parsedUser.id
-    const user=EmailUser.create(userId,parsedUser.name,emailVO,parsedUser.password)
+    const passwordVO = Password.fromHash(parsedUser.passwordHash);
+    const user = EmailUser.create(
+      userId,
+      parsedUser.name,
+      emailVO,
+      // parsedUser.password
+      passwordVO
+    );
 
-    user.verifyUser()
-    await this.userRepository.save(user)
-      await this.domainEventPublish.publishEvents(user.events);
-    user.clearEvents()
+    user.verifyUser();
+    this.logger.info(
+      `User verified successfully userId ${user.id.value} email : ${parsedUser.email}`
+    );
+    await this.userRepository.save(user);
+    await this.domainEventPublish.publishEvents(user.events);
+    user.clearEvents();
 
+    // const userPayload = {
+    //   userId: user.id.value,
+    //   email: user.email.value,
+    //   role: user.role,
+    // };
 
-  const userPayload ={
-      userId:user.id.value,
-      email:user.email.value,
-      role:user.role
-    }
-    
-    const accessToken=await this.tokenService.generateAccessToken(userPayload)
-    const refreshToken=await this.tokenService.generateRefreshToken(userPayload)
+    // const accessToken =
+    //   await this.tokenService.generateAccessToken(userPayload);
+    // const refreshToken =
+    //   await this.tokenService.generateRefreshToken(userPayload);
 
+    this.logger.info(`User ${dto.email} verified successfully`);
 
-        this.logger.info(`User ${dto.email} verified successfully`);
- 
-        // await this.cacheService.delete(`otp:register${dto.email}`);
+    await this.cacheService.delete(`otp:register${dto.email}`);
     await this.cacheService.delete(`user:temp:${dto.email}`);
     return {
-      email:user.email.value,
-      accessToken,
-      refreshToken,
-      message:ResponseMessages.OtpVerified
-    }
+      email: user.email.value,
+      // accessToken,
+      // refreshToken,
+      message: ResponseMessages.OtpVerified,
+    };
   }
 }
 

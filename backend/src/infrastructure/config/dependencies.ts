@@ -10,6 +10,10 @@ import { DomainEventPublisher } from "../services/DomainEventPublisher";
 import { WinstonLogger } from "../Logger/logger";
 
 import { RegisterUseCase } from "../../application/use-cases/user/RegisterUserUseCase";
+import { VerifyOtpUsecase } from "../../application/use-cases/user/VerifyOtpUseCase";
+import { LoginUserUseCase } from "../../application/use-cases/user/LoginUserUseCase";
+
+
 
 export const logger = new WinstonLogger();
 export const userRepository = new UserRepository(UserModel);
@@ -31,6 +35,21 @@ export const registerUseCase = new RegisterUseCase(
   logger
 );
 
+export const verifyOtpUseCase = new VerifyOtpUsecase(
+  userRepository,
+  tokenService,
+  cacheService,
+  otpService,
+  domainEventPublisher,
+  logger
+);
+
+export const loginUserUseCase = new LoginUserUseCase(
+  userRepository,
+  passwordService,
+  tokenService,
+  logger
+);
 
 
 

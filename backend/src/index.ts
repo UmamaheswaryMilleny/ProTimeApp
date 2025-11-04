@@ -5,6 +5,9 @@ import { authRoutes } from "./interface_adapter/routes/authRoutes";
 import { errorHandler } from "./interface_adapter/middleware/errorHandler";
 import { connectDB } from "./infrastructure/database/connectDB";
 import { logger } from "./infrastructure/config/dependencies";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 const app = express();
 

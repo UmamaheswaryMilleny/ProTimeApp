@@ -96,6 +96,23 @@ export class EmailUser extends User {
   }
 
 
+  static restore(
+    id: UserId,
+    name: string,
+    email: Email,
+    password: Password,
+    role: UserRole,
+    status: UserStatus,
+    isVerified: boolean,
+    provider: Provider,
+    createdAt?: Date,
+    updatedAt?: Date
+  ): EmailUser {
+    return new EmailUser(id, name, email, password, role, status, isVerified, provider, createdAt, updatedAt);
+  }
+
+
+
   get password(): Password {
     return this._password;
   }

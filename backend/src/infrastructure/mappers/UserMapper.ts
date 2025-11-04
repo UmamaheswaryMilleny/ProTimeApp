@@ -5,7 +5,7 @@ import { Email } from "../../domain/value-objects/Email";
 import { Password } from "../../domain/value-objects/Password";
 import { UserId } from "../../domain/value-objects/UserId";
 import { Provider } from "../../domain/enums/UserEnums";
-
+import { UserRole,UserStatus } from "../../domain/enums/UserEnums";
 /**
  * Convert persistence model -> domain entity
  */
@@ -14,7 +14,9 @@ export const toDomain = (doc: IUserModel | null): User | null => {
 
   const userId = UserId.create(doc.id); // doc.id is domain id stored in DB
   const emailVO = Email.create(doc.email);
-
+ const role = doc.role as UserRole;
+ const status = doc.status as UserStatus;
+  const provider = doc.provider as Provider;
   // If provider is GOOGLE or googleId exists -> GoogleUser
   if (doc.provider === Provider.GOOGLE || doc.googleId) {
     // GoogleUser.create validates name and googleId
@@ -30,7 +32,18 @@ const passwordVO = Password.fromHash(doc.password ?? "");
 
   // Note: EmailUser.create validates name length etc.
   // We assume password exists for local accounts; if not, creation may throw.
-  return EmailUser.create(userId, doc.name, emailVO, passwordVO);
+   return EmailUser.restore(
+    userId,
+    doc.name,
+    emailVO,
+    passwordVO,
+    role,
+    status,
+    doc.isVerified,
+    provider,
+    doc.createdAt,
+    doc.updatedAt
+  );
 };
 
 /**

@@ -3,6 +3,8 @@ import { DomainError } from "../../domain/errors/DomainError";
 import { UserAlreadyExistError } from "../../domain/errors/UserAlreadyExistError";
 import { HttpStatusCode } from "../../application/constants/statusCodes";
 import { logger } from "../../infrastructure/config/dependencies";
+import { InvalidOTPError } from "../../domain/errors/InvalidOTPError";
+import { OtpExpiredError } from "../../domain/errors/OtpExpiredError";
 
 /**
  * Global Express error handler
@@ -19,12 +21,26 @@ export function errorHandler(err: unknown, req: Request, res: Response, _next: N
     logger.warn(err.message);
     return res.status(HttpStatusCode.BAD_REQUEST).json({ message: err.message });
   }
+if (err instanceof InvalidOTPError) {
+  logger.warn(err.message);
+  return res.status(HttpStatusCode.BAD_REQUEST).json({ message: err.message });
+}
 
+if (err instanceof OtpExpiredError) {
+  logger.warn(err.message);
+  return res.status(HttpStatusCode.GONE).json({ message: err.message });
+}
   // Unknown/system errors
-  logger.error("Unhandled error in request", err);
+  // logger.error("Unhandled error in request", err);
+  logger.error(`Unhandled error in request: ${err instanceof Error ? err.message : String(err)}`);
+if (err instanceof Error && err.stack) {
+  logger.error(err.stack);
+}
   return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
     message: "Internal server error",
   });
+
+  
 }
 
 

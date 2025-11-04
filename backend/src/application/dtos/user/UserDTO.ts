@@ -41,6 +41,8 @@ export interface GoogleRegisterResponseDTO{
 export interface LoginUserDTO {
   email: string;
   password: string;
+   accessToken: string;
+  refreshToken: string;
 }
 
 export interface AuthTokensDTO {
@@ -81,13 +83,13 @@ export interface VerifyOtpRequestDTO {
   otp: string;
 }
 
-export interface VerifyOtpResponseDTO extends AuthTokensDTO {
+export interface VerifyOtpResponseDTO{
   //   userId: string;
   // name:string,
   email: string;
   // role:string,
-  accessToken: string;
-  refreshToken: string;
+  // accessToken: string;
+  // refreshToken: string;
   message?: string;
 }
 
