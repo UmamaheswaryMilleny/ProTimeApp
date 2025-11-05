@@ -55,14 +55,16 @@ export abstract class User extends BaseEntity {
       this._isVerified = true;
       this._status = UserStatus.ACTIVE;
       this.addEvent(new UserVerifiedEvent(this._id.value, this._email));
-      this.updateTimestamp();
+      this.touch();
+
     }
   }
 
   blockUser(): void {
     if (this._status !== UserStatus.BLOCKED) {
       this._status = UserStatus.BLOCKED;
-       this.updateTimestamp();
+       this.touch();
+
     }
   }
 
@@ -122,7 +124,7 @@ export class EmailUser extends User {
     throw new SamePasswordError();
   }
     this._password = newPassword;
-    this.updateTimestamp();
+   this.touch();
     this.addEvent(new UserPasswordChangedEvent(this._id.value, newPassword.hash));
   }
 

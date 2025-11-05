@@ -1,13 +1,13 @@
 import { WeakPasswordError } from "../errors/WeakPasswordError";
 
 export class Password {
-  private constructor(private readonly _value: string) {}
+  private constructor(private readonly _hash: string) {}
 
-  static create(raw: string): Password {
-    if (!this.isValid(raw)) {
+  static create(hash: string): Password {
+    if (!this.isValid(hash)) {
       throw new WeakPasswordError()
     }
-    return new Password(raw);
+    return new Password(hash);
   }
 
   //Used when you load an existing user from the database.
@@ -22,11 +22,10 @@ export class Password {
   }
 
   get hash(): string {
-    return this._value;
+    return this._hash
   }
   equals(other: Password): boolean {
-    if (!other) return false;
-    return this._value === other._value;
+   return !!other && this._hash === other._hash;
   }
 }
 
