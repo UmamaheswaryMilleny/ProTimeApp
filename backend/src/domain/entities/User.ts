@@ -54,7 +54,7 @@ export abstract class User extends BaseEntity {
     if (!this._isVerified) {
       this._isVerified = true;
       this._status = UserStatus.ACTIVE;
-      this.addEvent(new UserVerifiedEvent(this._id.value, this._email));
+      this.addEvent(new UserVerifiedEvent(this._id.value, this._email.value));
       this.touch();
 
     }
@@ -119,17 +119,17 @@ export class EmailUser extends User {
     return this._password;
   }
 
-  changePassword(newPassword: Password): void {
-      if (this._password.equals(newPassword)) {
-    throw new SamePasswordError();
-  }
-    this._password = newPassword;
-   this.touch();
-    this.addEvent(new UserPasswordChangedEvent(this._id.value, newPassword.hash));
+    changeHashedPassword(newHashed: Password): void {
+    if (this._password.equals(newHashed)) {
+      throw new SamePasswordError();
+    }
+    this._password = newHashed;
+    this.touch();
+    this.addEvent(new UserPasswordChangedEvent(this._id.value, newHashed.hash));
   }
 
   generateOTP(otp: OTP): void {
-    this.addEvent(new OTPGeneratedEvent(this._id.value, otp.value, otp.expiry, otp.purpose));
+    this.addEvent(new OTPGeneratedEvent(this._id.value, otp.value, otp.expiresAt, otp.purpose));
   }
 }
 

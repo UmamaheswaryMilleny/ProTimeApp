@@ -8,9 +8,19 @@ export class UserRegisteredEvent extends DomainEvent {
     public readonly role: UserRole
   ) {
     super();
+    Object.freeze(this);
   }
 
   getName(): string {
     return "UserRegisteredEvent";
+  }
+
+  toPrimitives(): Record<string, unknown> {
+    return {
+      ...super.toPrimitives(),
+      userId: this.userId,
+      email: this.email,
+      role: this.role,
+    };
   }
 }

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1762339300876" clover="3.2.0">
+  <project timestamp="1762339300877" name="All files">
+    <metrics statements="180" coveredstatements="153" conditionals="64" coveredconditionals="46" methods="70" coveredmethods="49" elements="314" coveredelements="248" complexity="0" loc="180" ncloc="180" packages="5" files="19" classes="19"/>
+    <package name="entities">
+      <metrics statements="66" coveredstatements="58" conditionals="32" coveredconditionals="27" methods="26" coveredmethods="20"/>
+      <file name="BaseEntity.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\entities\BaseEntity.ts">
+        <metrics statements="12" coveredstatements="9" conditionals="8" coveredconditionals="6" methods="8" coveredmethods="5"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="8" count="7" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="12" count="7" type="cond" truecount="3" falsecount="1"/>
+        <line num="13" count="7" type="cond" truecount="3" falsecount="1"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="3" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="32" count="5" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+      </file>
+      <file name="User.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\entities\User.ts">
+        <metrics statements="54" coveredstatements="49" conditionals="24" coveredconditionals="21" methods="18" coveredmethods="15"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="35" count="7" type="stmt"/>
+        <line num="36" count="7" type="stmt"/>
+        <line num="37" count="7" type="stmt"/>
+        <line num="38" count="7" type="stmt"/>
+        <line num="39" count="7" type="stmt"/>
+        <line num="40" count="7" type="stmt"/>
+        <line num="41" count="7" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="48" count="3" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="50" count="2" type="stmt"/>
+        <line num="54" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="56" count="2" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="88" count="6" type="stmt"/>
+        <line num="89" count="6" type="stmt"/>
+        <line num="93" count="7" type="cond" truecount="4" falsecount="0"/>
+        <line num="94" count="1" type="stmt"/>
+        <line num="97" count="6" type="stmt"/>
+        <line num="113" count="0" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
+        <line num="123" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="124" count="1" type="stmt"/>
+        <line num="126" count="1" type="stmt"/>
+        <line num="127" count="1" type="stmt"/>
+        <line num="128" count="1" type="stmt"/>
+        <line num="132" count="1" type="stmt"/>
+        <line num="137" count="1" type="stmt"/>
+        <line num="152" count="1" type="stmt"/>
+        <line num="153" count="1" type="stmt"/>
+        <line num="157" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="158" count="1" type="stmt"/>
+        <line num="160" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="161" count="1" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
+        <line num="167" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="enums">
+      <metrics statements="12" coveredstatements="12" conditionals="8" coveredconditionals="8" methods="4" coveredmethods="4"/>
+      <file name="UserEnums.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\enums\UserEnums.ts">
+        <metrics statements="12" coveredstatements="12" conditionals="8" coveredconditionals="8" methods="4" coveredmethods="4"/>
+        <line num="1" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="errors">
+      <metrics statements="24" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="4"/>
+      <file name="DomainError.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\errors\DomainError.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+      </file>
+      <file name="GoogleIdError.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\errors\GoogleIdError.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+      </file>
+      <file name="InvalidCredentialsError.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\errors\InvalidCredentialsError.ts">
+        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+      </file>
+      <file name="InvalidEmailError.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\errors\InvalidEmailError.ts">
+        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+      </file>
+      <file name="InvalidOTPError.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\errors\InvalidOTPError.ts">
+        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+      </file>
+      <file name="InvalidUserNameError.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\errors\InvalidUserNameError.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+      </file>
+      <file name="OtpExpiredError.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\errors\OtpExpiredError.ts">
+        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+      </file>
+      <file name="SamePasswordError.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\errors\SamePasswordError.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="events">
+      <metrics statements="32" coveredstatements="24" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="3"/>
+      <file name="DomainEvent.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\events\DomainEvent.ts">
+        <metrics statements="6" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+      </file>
+      <file name="OTPGeneratedEvent.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\events\OTPGeneratedEvent.ts">
+        <metrics statements="10" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+      </file>
+      <file name="UserPasswordChangedEvent.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\events\UserPasswordChangedEvent.ts">
+        <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+      </file>
+      <file name="UserVerifiedEvent.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\events\UserVerifiedEvent.ts">
+        <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="value-objects">
+      <metrics statements="46" coveredstatements="39" conditionals="24" coveredconditionals="11" methods="21" coveredmethods="18"/>
+      <file name="Email.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\value-objects\Email.ts">
+        <metrics statements="12" coveredstatements="9" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="4"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="9" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="28" count="0" type="stmt"/>
+      </file>
+      <file name="OTP.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\value-objects\OTP.ts">
+        <metrics statements="18" coveredstatements="15" conditionals="9" coveredconditionals="2" methods="9" coveredmethods="7"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="16" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="41" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+      </file>
+      <file name="Password.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\value-objects\Password.ts">
+        <metrics statements="10" coveredstatements="9" conditionals="7" coveredconditionals="5" methods="4" coveredmethods="4"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="10" count="2" type="cond" truecount="4" falsecount="1"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="19" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+      </file>
+      <file name="UserId.ts" path="C:\Users\umama\OneDrive\Desktop\Second Project\PROTIMEAPP\backend\src\domain\value-objects\UserId.ts">
+        <metrics statements="6" coveredstatements="6" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="11" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="15" count="4" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

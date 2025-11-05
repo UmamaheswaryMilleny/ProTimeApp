@@ -9,9 +9,20 @@ export class OTPGeneratedEvent extends DomainEvent {
     public readonly purpose: OtpPurpose
   ) {
     super();
+    Object.freeze(this);
   }
 
   getName(): string {
     return "OTPGeneratedEvent";
+  }
+
+  toPrimitives(): Record<string, unknown> {
+    return {
+      ...super.toPrimitives(),
+      userId: this.userId,
+      otpValue: this.otpValue,
+      expiresAt: this.expiresAt,
+      purpose: this.purpose,
+    };
   }
 }

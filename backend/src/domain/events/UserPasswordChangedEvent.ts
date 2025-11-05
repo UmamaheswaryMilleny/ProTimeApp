@@ -1,4 +1,3 @@
-
 import { DomainEvent } from "./DomainEvent";
 
 export class UserPasswordChangedEvent extends DomainEvent {
@@ -7,10 +6,20 @@ export class UserPasswordChangedEvent extends DomainEvent {
     public readonly hashedPassword: string
   ) {
     super();
+    Object.freeze(this);
   }
 
   getName(): string {
     return "UserPasswordChangedEvent";
   }
+
+  toPrimitives(): Record<string, unknown> {
+    return {
+      ...super.toPrimitives(),
+      userId: this.userId,
+      hashedPassword: this.hashedPassword,
+    };
+  }
 }
+
 

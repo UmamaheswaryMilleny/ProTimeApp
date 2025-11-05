@@ -1,7 +1,9 @@
 import { InvalidEmailError } from "../errors/InvalidEmailError";
 
 export class Email {
-  private constructor(private readonly _value: string) {}
+  private constructor(private readonly _value: string) {
+     Object.freeze(this);
+  }
 
   static create(email: string): Email {
     if (!this.isValid(email)) {

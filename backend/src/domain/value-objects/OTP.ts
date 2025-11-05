@@ -7,7 +7,9 @@ export class OTP {
     private readonly _code: string,
     private readonly _expiresAt: Date,
     private readonly _purpose: OtpPurpose
-  ) {}
+  ) {
+    Object.freeze(this);
+  }
 
   static create(code: string, expiresAt: Date, purpose: OtpPurpose): OTP {
     if (!this.isValid(code)) throw new InvalidOTPError();
@@ -27,8 +29,8 @@ export class OTP {
     return this._code;
   }
 
-  get expiry(): Date {
-    return this._expiresAt;
+get expiresAt(): Date {
+    return this._expiresAt; 
   }
 
   get purpose(): OtpPurpose {
@@ -36,9 +38,13 @@ export class OTP {
   }
 
   equals(other: OTP): boolean {
-    return this._code === other._code && this._purpose === other._purpose;
+    if (!other) return false;
+    return (
+      this._code === other._code &&
+      this._purpose === other._purpose &&
+      this._expiresAt.getTime() === other._expiresAt.getTime()
+    );
   }
-
   isCurrentlyExpired(): boolean {
     return this._expiresAt.getTime() < Date.now();
   }

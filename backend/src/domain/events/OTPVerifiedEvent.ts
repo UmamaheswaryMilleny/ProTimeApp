@@ -8,10 +8,19 @@ export class OTPVerifiedEvent extends DomainEvent {
     public readonly purpose: OtpPurpose
   ) {
     super();
+    Object.freeze(this);
   }
 
   getName(): string {
     return "OTPVerifiedEvent";
   }
-}
 
+  toPrimitives(): Record<string, unknown> {
+    return {
+      ...super.toPrimitives(),
+      userId: this.userId,
+      otpValue: this.otpValue,
+      purpose: this.purpose,
+    };
+  }
+}

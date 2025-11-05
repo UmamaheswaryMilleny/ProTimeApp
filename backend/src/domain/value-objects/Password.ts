@@ -1,55 +1,68 @@
-import { WeakPasswordError } from "../errors/WeakPasswordError";
+import { InvalidCredentialsError } from "../errors/InvalidCredentialsError";
 
 export class Password {
-  private constructor(private readonly _hash: string) {}
+  private constructor(private readonly _hash: string) {
+    Object.freeze(this);
+  }
 
-  static create(hash: string): Password {
-    if (!this.isValid(hash)) {
-      throw new WeakPasswordError()
+  // Use when you already have hashed password (restore from DB)
+  static fromHash(hash: string): Password {
+    if (!hash || typeof hash !== "string" || hash.length < 20) {
+      // minimal sanity check for hash format/length; adjust per your hasher
+      throw new InvalidCredentialsError();
     }
     return new Password(hash);
   }
 
-  //Used when you load an existing user from the database.
-  static fromHash(hash: string): Password {
-    return new Password(hash);
-  }
-
-  private static isValid(password: string): boolean {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
+  // Domain-level equality compares hashes
+  equals(other: Password): boolean {
+    if (!other) return false;
+    return this._hash === other._hash;
   }
 
   get hash(): string {
-    return this._hash
-  }
-  equals(other: Password): boolean {
-   return !!other && this._hash === other._hash;
+    return this._hash;
   }
 }
 
 
 
 
+
+
+
+
+
+
+// import { WeakPasswordError } from "../errors/WeakPasswordError";
+
 // export class Password {
-//   private readonly _value: string;
-//   constructor(password: string) {
-//     if (!this.isValid(password))
-//       throw new Error(
-//         'Password must include uppercase, lowercase, number, and special character'
-//       );
-//     this._value = password;
+//   private constructor(private readonly _hash: string) {}
+
+//   static create(hash: string): Password {
+//     if (!this.isValid(hash)) {
+//       throw new WeakPasswordError()
+//     }
+//     return new Password(hash);
 //   }
 
-//   private isValid(password: string): boolean {
+//   //Used when you load an existing user from the database.
+//   static fromHash(hash: string): Password {
+//     return new Password(hash);
+//   }
+
+//   private static isValid(password: string): boolean {
 //     const passwordRegex =
 //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
 //     return passwordRegex.test(password);
 //   }
 
-//   get value(): string {
-//     return this._value;
+//   get hash(): string {
+//     return this._hash
+//   }
+//   equals(other: Password): boolean {
+//    return !!other && this._hash === other._hash;
 //   }
 // }
+
+
