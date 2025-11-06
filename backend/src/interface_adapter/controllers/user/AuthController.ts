@@ -6,8 +6,17 @@ import { verifyOtpUseCase } from "../../../infrastructure/config/dependencies";
 import { VerifyOtpRequestDTO, VerifyOtpResponseDTO } from "../../../application/dtos/user/UserDTO";
 import { loginUserUseCase } from "../../../infrastructure/config/dependencies";
 import { LoginUserDTO, LoginResponseDTO } from "../../../application/dtos/user/UserDTO";
+import {
+  forgotPasswordUseCase,
+  resetPasswordUseCase,
 
-
+} from "../../../infrastructure/config/dependencies";
+import {
+  ForgotPasswordRequestDTO,
+  ForgotPasswordResponseDTO,
+  ResetPasswordRequestDTO,
+  ResetPasswordResponseDTO,
+} from "../../../application/dtos/user/UserDTO";
 
 export class AuthController {
   // POST /api/auth/register
@@ -53,6 +62,34 @@ export class AuthController {
       return next(err);
     }
   }
+
+ async forgotPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const dto = req.body as ForgotPasswordRequestDTO;
+      const result: ForgotPasswordResponseDTO = await forgotPasswordUseCase.execute(dto);
+      logger.info(`ForgotPasswordController: OTP sent to ${dto.email}`);
+      return res.status(HttpStatusCode.OK).json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * POST /api/auth/reset-password
+   * Verifies OTP and updates user password.
+   */
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const dto = req.body as ResetPasswordRequestDTO;
+      const result: ResetPasswordResponseDTO = await resetPasswordUseCase.execute(dto);
+      logger.info(`ResetPasswordController: Password reset for ${dto.email}`);
+      return res.status(HttpStatusCode.OK).json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+
 
 }
 

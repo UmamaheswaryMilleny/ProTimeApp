@@ -24,7 +24,8 @@ export abstract class BaseEntity {
  get updatedAt(): Date { return this._updatedAt; }
 protected touch(): void { this._updatedAt = new Date(); }
 
-    protected addEvent(event: DomainEvent): void {
+    // protected addEvent(event: DomainEvent): void {
+    public addEvent(event: DomainEvent): void {
     this._events.push(event);
   }
 

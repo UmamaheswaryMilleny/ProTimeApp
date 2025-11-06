@@ -8,7 +8,8 @@ import { EmailService } from "../services/EmailService";
 import { OtpService } from "../services/OtpService";
 import { DomainEventPublisher } from "../services/DomainEventPublisher";
 import { WinstonLogger } from "../Logger/logger";
-
+import { ForgotPasswordUseCase } from "../../application/use-cases/user/ForgotPasswordUseCase";
+import { ResetPasswordUseCase } from "../../application/use-cases/user/ResetPasswordUseCase";
 import { RegisterUseCase } from "../../application/use-cases/user/RegisterUserUseCase";
 import { VerifyOtpUsecase } from "../../application/use-cases/user/VerifyOtpUseCase";
 import { LoginUserUseCase } from "../../application/use-cases/user/LoginUserUseCase";
@@ -48,6 +49,24 @@ export const loginUserUseCase = new LoginUserUseCase(
   userRepository,
   passwordService,
   tokenService,
+  logger
+);
+
+export const forgotPasswordUseCase = new ForgotPasswordUseCase(
+  userRepository,
+  otpService,
+  emailService,
+  cacheService,
+  domainEventPublisher,
+  logger
+);
+
+export const resetPasswordUseCase = new ResetPasswordUseCase(
+  userRepository,
+  passwordService,
+  otpService,
+  cacheService,
+  domainEventPublisher,
   logger
 );
 

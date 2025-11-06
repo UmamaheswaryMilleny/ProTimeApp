@@ -46,7 +46,8 @@ export class ForgotPasswordUseCase implements IForgotPasswordUseCase {
     await this.domainEventPublisher.publishEvents(user.events);
     user.clearEvents();
 
-    this.logger.info(`Password reset OTP sent to ${dto.email}`);
+    this.logger.info(`Password reset OTP sent to ${dto.email} otp is ${otpVO.value}`);
+    
     return { message: ResponseMessages.OtpHasBeenSent };
   }
 }
