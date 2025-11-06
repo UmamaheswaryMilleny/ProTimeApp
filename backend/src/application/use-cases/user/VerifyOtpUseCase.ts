@@ -86,7 +86,7 @@ export class VerifyOtpUsecase implements IVerifyOTPUserUseCase {
 
     this.logger.info(`User ${dto.email} verified successfully`);
 
-    await this.cacheService.delete(`otp:register${dto.email}`);
+    await this.cacheService.delete(`otp:register:${dto.email}`);
     await this.cacheService.delete(`user:temp:${dto.email}`);
     return {
       email: user.email.value,
