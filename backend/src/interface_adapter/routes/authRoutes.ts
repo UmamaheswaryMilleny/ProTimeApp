@@ -11,7 +11,7 @@ import { ResetPasswordSchema } from "../../application/validators/UserValidator"
 const router = Router();
 const controller = new AuthController();
 
-// POST /api/auth/register
+
 router.post("/register", validateRequest(RegisterUserSchema), (req, res, next) =>
   controller.register(req, res, next)
 );

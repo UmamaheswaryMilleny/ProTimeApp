@@ -42,7 +42,9 @@ export class CacheService implements ICacheService {
 
   constructor() {
     if (!config.redisURL) throw new Error("❌ Missing REDIS_URL in .env");
-    this.client = new Redis(config.redisURL);
+        this.client = new Redis(config.redisURL, {
+      connectTimeout: 30000, // optional: increase timeout to 15s
+    });
 
     this.client.on("connect", () => console.log("✅ Connected to Redis Cloud"));
     this.client.on("error", (err) => console.error("❌ Redis Error:", err));

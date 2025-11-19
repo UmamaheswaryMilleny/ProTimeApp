@@ -13,7 +13,9 @@ import { ResetPasswordUseCase } from "../../application/use-cases/user/ResetPass
 import { RegisterUseCase } from "../../application/use-cases/user/RegisterUserUseCase";
 import { VerifyOtpUsecase } from "../../application/use-cases/user/VerifyOtpUseCase";
 import { LoginUserUseCase } from "../../application/use-cases/user/LoginUserUseCase";
-
+// import { AdminModel } from "../database/Schema/adminSchema";
+// import { AdminRepository } from "../database/repositories/AdminRepository";
+import { LoginAdminUseCase } from "../../application/use-cases/user/LoginAdminUseCase";
 
 
 export const logger = new WinstonLogger();
@@ -24,6 +26,7 @@ export const cacheService = new CacheService();
 export const emailService = new EmailService();
 export const otpService = new OtpService(cacheService);
 export const domainEventPublisher = new DomainEventPublisher(logger);
+export const adminRepository=new AdminRepository(UserModel)
 
 // Create use case (application layer)
 export const registerUseCase = new RegisterUseCase(
@@ -71,7 +74,12 @@ export const resetPasswordUseCase = new ResetPasswordUseCase(
 );
 
 
-
+export const adminLoginUseCase=new LoginAdminUseCase(
+userRepository,
+passwordService,
+tokenService,
+logger
+)
 
 // import { UserRepository } from "../database/repositories/UserRepository";
 // import { UserModel } from "../database/Schema/userSchema";

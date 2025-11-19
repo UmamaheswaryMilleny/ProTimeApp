@@ -16,7 +16,7 @@ import { Provider } from '../enums/UserEnums';
 export abstract class User extends BaseEntity {
  protected _name: string;
   protected _email: Email;
-  protected _role: UserRole;
+  protected _role: UserRole.USER;
   protected _status: UserStatus;
   protected _isVerified: boolean;
   protected _provider: Provider;
@@ -35,7 +35,7 @@ export abstract class User extends BaseEntity {
     super(id, createdAt, updatedAt);
     this._name = name;
     this._email = email;
-    this._role = role;
+    this._role = UserRole.USER;
     this._status = status;
     this._isVerified = isVerified;
     this._provider=provider;
